@@ -1,0 +1,10 @@
+lognot:
+  notification:
+    recipients: robert@sicoie.ro
+
+files:
+- key: file1
+  path: /tmp/1.log
+  regEx: .*ERROR.*
+
+

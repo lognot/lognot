@@ -1,0 +1,14 @@
+  _                                        _
+ | |                                      | |
+ | |        ___     __ _   _ __     ___   | |_
+ | |       / _ \   / _` | | '_ \   / _ \  | __|
+ | |____  | (_) | | (_| | | | | | | (_) | | |_
+ |______|  \___/   \__, | |_| |_|  \___/   \__|
+                    __/ |
+                   |___/                v.0.0.1-SNAPSHOT
+
+2017-11-12 08:54:02.257  INFO 3700 --- [           main] io.lognot.LognotApplication              : Starting LognotApplication v0.0.1-SNAPSHOT on robert-laptop with PID 3700 (/home/robert/dev/lognot/target/lognot-0.0.1-SNAPSHOT.jar started by robert in /home/robert/dev/lognot)
+2017-11-12 08:54:02.269  INFO 3700 --- [           main] io.lognot.LognotApplication              : No active profile set, falling back to default profiles: default
+2017-11-12 08:54:04.003 ERROR 3700 --- [           main] io.lognot.LognotApplication              : File /tmp/1 cannot be traced. Check if it is readable.
+2017-11-12 08:54:04.003 ERROR 3700 --- [           main] io.lognot.LognotApplication              : File /tmp/2 cannot be traced. Check if it is readable.
+2017-11-12 08:54:04.006  INFO 3700 --- [           main] io.lognot.LognotApplication              : Started LognotApplication in 2.731 seconds (JVM running for 3.829)
