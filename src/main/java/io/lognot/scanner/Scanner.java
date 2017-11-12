@@ -1,6 +1,8 @@
 package io.lognot.scanner;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lognot.file.LogFile;
 import io.lognot.notification.Notification;
 import io.lognot.notification.Notifier;
@@ -16,7 +18,7 @@ public class Scanner implements Runnable {
 
     private LogFile logFile;
 
-    private int offset;
+    private long offset;
 
     @Autowired
     private ScannerStats scannerStats;
@@ -29,20 +31,16 @@ public class Scanner implements Runnable {
     @Override
     public void run() {
         LOG.debug("File path: " + logFile.getPath());
-        scan();
-    }
-
-    private void scan() {
         try {
             File file = new File(logFile.getPath());
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            RandomAccessFile reader = new RandomAccessFile(logFile.getPath(), "r");
 
             calculateOffsetIfLogFileRotated(file, reader);
 
             Notification.Builder notBuilder = new Notification.Builder();
             String line;
             while ((line = reader.readLine()) != null) {
-                offset += line.length();
+                offset += line.length() + 1;
                 if (line.matches(logFile.getRegEx())) {
                     LOG.debug(String.format("Matched line in file '%s'. Line: '%s'.", logFile.getPath(), line));
 
@@ -51,7 +49,7 @@ public class Scanner implements Runnable {
 
                 }
 
-                scannerStats.addFileMeta(logFile.getKey(), this.toString());
+                scannerStats.addFileMeta(logFile.getKey(), this.toJson());
             }
 
             notBuilder.build().ifPresent(notifier::send);
@@ -62,20 +60,25 @@ public class Scanner implements Runnable {
         }
     }
 
-    private void calculateOffsetIfLogFileRotated(File file, BufferedReader reader) throws IOException {
+    private void calculateOffsetIfLogFileRotated(File file, RandomAccessFile reader) throws IOException {
         if (file.length() < offset ) {
             offset = 0;
         } else if (offset > 0) {
-            reader.skip(offset);
-            LOG.debug(String.format("Skipping %d characters.", offset));
+            reader.seek(offset);
+            LOG.debug(String.format("Skipped to offset %d.", offset));
         }
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "'logFile':" + logFile +
-                ", 'offset':" + offset +
-                '}';
+    public long getOffset() {
+        return offset;
+    }
+
+    public ScannerStats getScannerStats() {
+        return scannerStats;
+    }
+
+    public String toJson() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(this);
     }
 }

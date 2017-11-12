@@ -10,6 +10,14 @@ public class LogFile {
 
     private String regEx;
 
+    public LogFile() {
+    }
+
+    public LogFile(String key, String path, String regEx) {
+        this.key = key;
+        this.path = path;
+        this.regEx = regEx;
+    }
 
     public String getKey() {
         return key;
