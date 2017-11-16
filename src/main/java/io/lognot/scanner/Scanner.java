@@ -30,17 +30,21 @@ public class Scanner implements Runnable {
 
     @Override
     public void run() {
+        Thread.currentThread().setName(logFile.getKey());
         LOG.debug("File path: " + logFile.getPath());
+        Notification.Builder notBuilder = new Notification.Builder();
+        FileInputStream stream = null;
+        java.util.Scanner scanner = null;
         try {
+
             File file = new File(logFile.getPath());
-            RandomAccessFile reader = new RandomAccessFile(logFile.getPath(), "r");
+            stream = new FileInputStream(file);
+            scanner = new java.util.Scanner(stream, "UTF-8");
 
-            calculateOffsetIfLogFileRotated(file, reader);
+            calculateOffsetIfLogFileRotated(file, stream);
 
-            Notification.Builder notBuilder = new Notification.Builder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                offset += line.length() + 1;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
                 if (line.matches(logFile.getRegEx())) {
                     LOG.debug(String.format("Matched line in file '%s'. Line: '%s'.", logFile.getPath(), line));
 
@@ -48,23 +52,34 @@ public class Scanner implements Runnable {
                             .withLine(line);
 
                 }
-
-                scannerStats.addFileMeta(logFile.getKey(), this.toJson());
+                offset += line.length() + 1;
             }
+//            TODO improve stats.
+//            scannerStats.addFileMeta(logFile.getKey(), this.toJson());
 
             notBuilder.build().ifPresent(notifier::send);
 
-            reader.close();
         } catch (Exception e) {
             LOG.error("Failed to scan!", e);
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    LOG.error("Failed to close file stream " + e);
+                }
+            }
+            if (scanner != null) {
+                scanner.close();
+            }
         }
     }
 
-    private void calculateOffsetIfLogFileRotated(File file, RandomAccessFile reader) throws IOException {
+    private void calculateOffsetIfLogFileRotated(File file, FileInputStream stream) throws IOException {
         if (file.length() < offset ) {
             offset = 0;
         } else if (offset > 0) {
-            reader.seek(offset);
+            stream.skip(offset);
             LOG.debug(String.format("Skipped to offset %d.", offset));
         }
     }

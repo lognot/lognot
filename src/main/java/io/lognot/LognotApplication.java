@@ -50,7 +50,7 @@ public class LognotApplication implements CommandLineRunner {
 		lognotConfig.getFiles().forEach((file) -> {
 			if (file.exists()) {
 				Scanner scanner = applicationContext.getBean(Scanner.class, file, notifier);
-				executor.scheduleAtFixedRate(scanner, 0, 1, TimeUnit.MINUTES);
+				executor.scheduleAtFixedRate(scanner, 0, 30, TimeUnit.SECONDS);
 				scannerStats.incrementNumberOfScanners();
 			} else {
 				LOG.error("File " + file.getPath() + " cannot be traced. Check if it is readable.");
