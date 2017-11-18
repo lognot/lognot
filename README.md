@@ -1,4 +1,13 @@
-# lognot
+```
+  _                                        _
+ | |                                      | |
+ | |        ___     __ _   _ __     ___   | |_
+ | |       / _ \   / _` | | '_ \   / _ \  | __|
+ | |____  | (_) | | (_| | | | | | | (_) | | |_
+ |______|  \___/   \__, | |_| |_|  \___/   \__|
+                    __/ |
+                   |___/              
+```                   
 Simple tool that scan log files periodically and notify if filters match.
 
 Build ![alt text]( https://travis-ci.org/robertsicoie/lognot.svg?branch=master "Build status" )
