@@ -1,8 +1,8 @@
 # lognot
 Simple tool that scan log files periodically and notify if filters match.
 
-Build
-=====
+Build ![alt text]( https://travis-ci.org/robertsicoie/lognot.svg?branch=master "Build status" )
+====================================================================================
 To run lognot run
 ```mvn spring-boot:run```
 
