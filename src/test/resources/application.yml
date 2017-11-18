@@ -4,14 +4,14 @@ lognot:
 
 # Files to scan. Mandatory configuration
 
-#files:
-#- key: file1
-#  path: /opt/app/logs/console.log
-#  regEx: .*ERROR.*
-#
-#- key: file2
-#  path: /var/log/httpd/error.log
-#  regEx: .*caught.*
+files:
+- key: file1
+  path: /opt/app/logs/console.log
+  regEx: .*ERROR.*
+
+- key: file2
+  path: /var/log/httpd/error.log
+  regEx: .*caught.*
 
 # Email configuration
 spring:

@@ -42,7 +42,7 @@ public class LognotApplication implements CommandLineRunner {
 	}
 
 	public void run(String... args) {
-		Assert.notEmpty(lognotConfig.getFiles(), "Empty list of log files.");
+		Assert.notEmpty(lognotConfig.getFiles(), "Empty list of log files to scan. Check your configuration file.");
 
 		int noOfFiles = lognotConfig.getFiles().size();
 		LOG.debug("Files: " + noOfFiles);
