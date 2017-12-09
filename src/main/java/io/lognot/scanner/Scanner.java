@@ -1,13 +1,10 @@
 package io.lognot.scanner;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lognot.file.LogFile;
 import io.lognot.notification.Notification;
 import io.lognot.notification.Notifier;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
 
@@ -19,9 +16,6 @@ public class Scanner implements Runnable {
     private LogFile logFile;
 
     private long offset;
-
-    @Autowired
-    private ScannerStats scannerStats;
 
     public Scanner(LogFile file, Notifier notifier) {
         this.logFile = file;
@@ -54,8 +48,6 @@ public class Scanner implements Runnable {
                 }
                 offset += line.length() + 1;
             }
-//            TODO improve stats.
-//            scannerStats.addFileMeta(logFile.getKey(), this.toJson());
 
             notBuilder.build().ifPresent(notifier::send);
 
@@ -86,14 +78,5 @@ public class Scanner implements Runnable {
 
     public long getOffset() {
         return offset;
-    }
-
-    public ScannerStats getScannerStats() {
-        return scannerStats;
-    }
-
-    public String toJson() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(this);
     }
 }

@@ -46,9 +46,6 @@ public class ScannerTest {
 
         verify(notifierMock, never()).send(any(Notification.class));
         assertEquals("Offset should not change in empty file.", 0L, scanner.getOffset());
-
-        ScannerStats scannerStats = scanner.getScannerStats();
-        assertNotNull(scannerStats);
     }
 
     @Test
@@ -83,11 +80,5 @@ public class ScannerTest {
 
         assertEquals("LogFile object not valid on notification.", logFile, notification.getFile());
         assertEquals("Number of lines does not match.", 2, notification.getLines().size());
-
-//        TODO fix when working on stats.
-//        ScannerStats scannerStats = scanner.getScannerStats();
-//        assertNotNull(scannerStats);
-//        assertEquals("Number of scanners does not match.", 1, scannerStats.getStats().size());
-        // TODO add more
     }
 }
