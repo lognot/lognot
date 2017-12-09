@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JAR=target/lognot-0.0.1-SNAPSHOT.jar
+JAR=lognot.jar
 
 usage() {
     echo "Usage: $0 [-f <config_file>]" 1>&2
@@ -19,8 +19,6 @@ while getopts ":f:" o; do
     esac
 done
 shift $((OPTIND-1))
-
-echo "with config: $with_config"
 
 java \
     -Dcom.sun.management.jmxremote.port=9999 \

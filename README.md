@@ -17,13 +17,13 @@ To run lognot run
 
 To build the jar run
 ```mvn package```
+It will create the distributable archives containing the lognot.sh scrip
 
 Setup and run
 =============
 First create a copy of the src\main\resources\application.yml file - let's 
 call it lognot.yml - and set email properties, and files to scan.
 
-Copy the jar file, lognot.sh file and the lognot.yml to the machine you 
-want to run lognot on an run 
+Copy the lognot jar to the machine you want to run lognot on an run 
 ```./lognot -f lognot.yml > lognot.log 2>&1 &``` 
 to start it in backgrounf.
