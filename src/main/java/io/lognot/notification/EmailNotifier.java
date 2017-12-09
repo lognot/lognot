@@ -59,4 +59,8 @@ public class EmailNotifier implements Notifier {
 
         return templateEngine.process("notification", context);
     }
+
+    public void setNotificationRecipients(String notificationRecipients) {
+        this.notificationRecipients = notificationRecipients;
+    }
 }

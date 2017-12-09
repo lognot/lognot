@@ -38,7 +38,7 @@ public class ScannerTest {
     }
 
     @Test
-    public void emptyFileTest() {
+    public void testWithEmptyFile() {
         LogFile logFile = new LogFile("empty", "src/test/resources/logs/empty.log", ".*ERROR.*");
 
         Scanner scanner = testContext.getBean(Scanner.class, logFile, notifierMock);
@@ -49,7 +49,7 @@ public class ScannerTest {
     }
 
     @Test
-    public void offsetTest() {
+    public void testOffsetMatchNumberOfCharactersInFile() {
         String path = "src/test/resources/logs/2.log";
         LogFile logFile = new LogFile("empty", path, ".*ERROR.*");
 
@@ -62,9 +62,9 @@ public class ScannerTest {
     }
 
     @Test
-    public void foundPatternTest() throws IOException {
+    public void testPatternMatches() throws IOException {
         String path = "src/test/resources/logs/1.log";
-        LogFile logFile = new LogFile("1", path, ".*ERROR.*");
+        LogFile logFile = new LogFile("1", path, ".*ERROR.*|.*LognotApplication.*");
 
         Scanner scanner = testContext.getBean(Scanner.class, logFile, notifierMock);
         scanner.run();
@@ -79,6 +79,6 @@ public class ScannerTest {
         Notification notification = captor.getValue();
 
         assertEquals("LogFile object not valid on notification.", logFile, notification.getFile());
-        assertEquals("Number of lines does not match.", 2, notification.getLines().size());
+        assertEquals("Number of lines does not match.", 5, notification.getLines().size());
     }
 }

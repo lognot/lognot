@@ -41,7 +41,7 @@ public class Notification {
         }
 
         public Builder withLines(List<String> lines) {
-            this.lines = lines;
+            this.lines.addAll(lines);
             return this;
         }
 
