@@ -10,8 +10,8 @@
 ```                   
 Simple tool that scan log files periodically and notify if filters match.
 
-Build ![alt text]( https://travis-ci.org/robertsicoie/lognot.svg?branch=master "Build status" )
-====================================================================================
+Build ![alt text]( https://travis-ci.org/robertsicoie/lognot.svg?branch=master "Build status" ) [![codecov](https://codecov.io/gh/robertsicoie/lognot/branch/master/graph/badge.svg)](https://codecov.io/gh/robertsicoie/lognot)
+================================================================================================================================================================================================================================
 To run lognot run
 ```mvn spring-boot:run```
 
