@@ -2,9 +2,7 @@ package io.lognot.notification;
 
 import io.lognot.file.LogFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Notification {
     private LogFile file;

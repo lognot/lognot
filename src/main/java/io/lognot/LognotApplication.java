@@ -2,7 +2,6 @@ package io.lognot;
 
 import io.lognot.notification.Notifier;
 import io.lognot.scanner.Scanner;
-import io.lognot.scanner.ScannerStats;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -32,9 +31,6 @@ public class LognotApplication implements CommandLineRunner {
 	private LognotConfig lognotConfig;
 
 	@Autowired
-	private ScannerStats scannerStats;
-
-	@Autowired
 	private Notifier notifier;
 
 	public static void main(String[] args) {
@@ -51,7 +47,6 @@ public class LognotApplication implements CommandLineRunner {
 			if (file.exists()) {
 				Scanner scanner = applicationContext.getBean(Scanner.class, file, notifier);
 				executor.scheduleAtFixedRate(scanner, 0, 30, TimeUnit.SECONDS);
-				scannerStats.incrementNumberOfScanners();
 			} else {
 				LOG.error("File " + file.getPath() + " cannot be traced. Check if it is readable.");
 			}
