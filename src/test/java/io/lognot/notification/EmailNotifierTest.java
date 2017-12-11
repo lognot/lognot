@@ -7,14 +7,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
-
-import javax.mail.internet.MimeMessage;
-
-import java.util.Optional;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -42,7 +37,7 @@ public class EmailNotifierTest {
 
     @Test(expected = RuntimeException.class)
     public void testSendFails() throws Exception {
-        victim.setNotificationRecipients("john.doe@email.com");
+        victim.setNotificationRecipients(new String [] { "john.doe@example.com", "richard.moe@mail.com" });
 
         doThrow(new RuntimeException("failed")).when(mailSenderMock).send(any(MimeMessagePreparator.class));
 
@@ -52,6 +47,6 @@ public class EmailNotifierTest {
     @Test
     public void shouldNotTryToSendIfRecipientsAreNotSet() {
         victim.send(notification);
-        verify(mailSenderMock, never()).send(any(MimeMessage.class));
+        verify(mailSenderMock, never()).send(any(MimeMessagePreparator.class));
     }
 }

@@ -3,27 +3,28 @@ package io.lognot;
 import io.lognot.file.LogFile;
 import io.lognot.notification.Notifier;
 import io.lognot.scanner.Scanner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.util.StringUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.StandardTemplateModeHandlers;
-import org.thymeleaf.templatemode.TemplateModeHandler;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Configuration
 @ConfigurationProperties
 public class LognotConfig {
+
+    @Value("${lognot.notification.recipients}")
+    private String notificationRecipients;
 
     private List<LogFile> files = new ArrayList<>();
 
@@ -63,5 +64,13 @@ public class LognotConfig {
         templateResolver.setTemplateMode(StandardTemplateModeHandlers.HTML5.getTemplateModeName());
         templateResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
         return templateResolver;
+    }
+
+    @Bean String [] notificationRecipients() {
+        String [] recipients = {};
+        if (!StringUtils.isEmpty(notificationRecipients)) {
+            recipients = notificationRecipients.split(",");
+        }
+        return recipients;
     }
 }

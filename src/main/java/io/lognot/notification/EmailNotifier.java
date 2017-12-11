@@ -2,22 +2,13 @@ package io.lognot.notification;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import javax.mail.Message;
-import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class EmailNotifier implements Notifier {
@@ -29,17 +20,17 @@ public class EmailNotifier implements Notifier {
     @Autowired
     private SpringTemplateEngine templateEngine;
 
-    @Value("${lognot.notification.recipients}")
-    private String notificationRecipients;
+    @Autowired
+    private String [] notificationRecipients;
 
     @Override
     public void send(Notification notification) {
-        if (StringUtils.isEmpty(notificationRecipients)) {
+        if (notificationRecipients == null || notificationRecipients.length == 0) {
             LOG.info("Please set notification recipients to enable email notification.");
         } else {
             LOG.info("Sending email notification for " + notification.getFile().getPath());
 
-            mailSender.send((mimeMessage) -> {
+            mailSender.send(mimeMessage -> {
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,
                         MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                         StandardCharsets.UTF_8.name());
@@ -60,7 +51,7 @@ public class EmailNotifier implements Notifier {
         return templateEngine.process("notification", context);
     }
 
-    public void setNotificationRecipients(String notificationRecipients) {
+    protected void setNotificationRecipients(String [] notificationRecipients) {
         this.notificationRecipients = notificationRecipients;
     }
 }

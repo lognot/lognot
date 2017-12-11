@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JAR=lognot.jar
+JAR=target/lognot.jar
 
 usage() {
     echo "Usage: $0 [-f <config_file>]" 1>&2
