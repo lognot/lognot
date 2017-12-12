@@ -3,7 +3,7 @@ lognot
                   
 Simple tool that scan log files periodically and notify if filters match.
 
-Build ![alt text]( https://travis-ci.org/lognot/lognot.svg?branch=master "Build status" ) [![codecov](https://codecov.io/gh/robertsicoie/lognot/branch/master/graph/badge.svg)](https://codecov.io/gh/robertsicoie/lognot)
+Build ![alt text]( https://travis-ci.org/lognot/lognot.svg?branch=master "Build status" ) [![codecov](https://codecov.io/gh/lognot/lognot/branch/master/graph/badge.svg)](https://codecov.io/gh/lognot/lognot)
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 To run lognot run
