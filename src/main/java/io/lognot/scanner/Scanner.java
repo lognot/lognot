@@ -11,6 +11,8 @@ import java.io.*;
 public class Scanner implements Runnable {
     private static final Logger LOG = Logger.getLogger(Scanner.class);
 
+    public static final int LINE_SEPARATOR_LENGTH = System.getProperty("line.separator").getBytes().length;
+
     private Notifier notifier;
 
     private LogFile logFile;
@@ -46,7 +48,7 @@ public class Scanner implements Runnable {
                             .withLine(line);
 
                 }
-                offset += line.length() + 1;
+                offset += line.length() + LINE_SEPARATOR_LENGTH;
             }
 
             notBuilder.build().ifPresent(notifier::send);
@@ -71,7 +73,7 @@ public class Scanner implements Runnable {
         if (file.length() < offset ) {
             offset = 0;
         } else if (offset > 0) {
-            stream.skip(offset);
+            offset = stream.skip(offset);
             LOG.debug(String.format("Skipped to offset %d.", offset));
         }
     }
