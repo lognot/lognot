@@ -27,11 +27,11 @@ lognot:
 # Files to scan. Mandatory configuration
 
 files:
-- key: file1
+- key: app
   path: /opt/app/logs/console.log
   regEx: .*ERROR.*|.*Exception.*
 
-- key: file2
+- key: apache
   path: /var/log/httpd/error.log
   regEx: .*caught.*
 
