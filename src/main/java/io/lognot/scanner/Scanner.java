@@ -27,13 +27,20 @@ public class Scanner implements Runnable {
     @Override
     public void run() {
         Thread.currentThread().setName(logFile.getKey());
-        LOG.debug("File path: " + logFile.getPath());
+
+        if (!logFile.exists()) {
+            LOG.debug("Log file " + logFile.getActualPath() + " does not exist. It may have been deleted.");
+            return;
+        }
+        LOG.debug("File path: " + logFile.getActualPath());
+
         Notification.Builder notBuilder = new Notification.Builder();
+
         FileInputStream stream = null;
         java.util.Scanner scanner = null;
         try {
 
-            File file = new File(logFile.getPath());
+            File file = new File(logFile.getActualPath());
             stream = new FileInputStream(file);
             scanner = new java.util.Scanner(stream, "UTF-8");
 
@@ -42,7 +49,7 @@ public class Scanner implements Runnable {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 if (line.matches(logFile.getRegEx())) {
-                    LOG.debug(String.format("Matched line in file '%s'. Line: '%s'.", logFile.getPath(), line));
+                    LOG.debug(String.format("Matched line in file '%s'. Line: '%s'.", logFile.getActualPath(), line));
 
                     notBuilder.withFile(logFile)
                             .withLine(line);

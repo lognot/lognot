@@ -1,6 +1,7 @@
 package io.lognot;
 
 import io.lognot.notification.Notifier;
+import io.lognot.scanner.FilePathResolver;
 import io.lognot.scanner.Scanner;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-@Import(LognotConfig.class)
 @ComponentScan(basePackages = "io.lognot")
+@Import(LognotConfig.class)
 public class LognotApplication implements CommandLineRunner {
 	private static final Logger LOG = Logger.getLogger(LognotApplication.class);
 
@@ -33,6 +34,9 @@ public class LognotApplication implements CommandLineRunner {
 	@Autowired
 	private Notifier notifier;
 
+	@Autowired
+	private FilePathResolver filePathResolver;
+
 	public static void main(String[] args) {
 		SpringApplication.run(LognotApplication.class, args);
 	}
@@ -43,7 +47,8 @@ public class LognotApplication implements CommandLineRunner {
 		int noOfFiles = lognotConfig.getFiles().size();
 		LOG.debug("Files: " + noOfFiles);
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(noOfFiles);
-		lognotConfig.getFiles().forEach((file) -> {
+		lognotConfig.getFiles().forEach(file -> {
+			file.setFileResolver(filePathResolver);
 			if (file.exists()) {
 				Scanner scanner = applicationContext.getBean(Scanner.class, file, notifier);
 				executor.scheduleAtFixedRate(scanner, 0, 30, TimeUnit.SECONDS);

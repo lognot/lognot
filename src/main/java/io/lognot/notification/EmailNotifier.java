@@ -28,7 +28,7 @@ public class EmailNotifier implements Notifier {
         if (notificationRecipients == null || notificationRecipients.length == 0) {
             LOG.info("Please set notification recipients to enable email notification.");
         } else {
-            LOG.info("Sending email notification for " + notification.getFile().getPath());
+            LOG.info("Sending email notification for " + notification.getFile().getActualPath());
 
             mailSender.send(mimeMessage -> {
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,
@@ -45,7 +45,7 @@ public class EmailNotifier implements Notifier {
     private String getHTMLBody(Notification notification) {
         Context context = new Context();
         context.setVariable("lognot_file_key", notification.getFile().getKey());
-        context.setVariable("lognot_file_path", notification.getFile().getPath());
+        context.setVariable("lognot_file_path", notification.getFile().getActualPath());
         context.setVariable("lognot_file_lines", notification.getLines());
 
         return templateEngine.process("notification", context);

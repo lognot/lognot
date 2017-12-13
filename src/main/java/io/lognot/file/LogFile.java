@@ -1,5 +1,7 @@
 package io.lognot.file;
 
+import io.lognot.scanner.FilePathResolver;
+
 import java.io.File;
 
 public class LogFile {
@@ -9,6 +11,8 @@ public class LogFile {
     private String path;
 
     private String regEx;
+
+    private FilePathResolver fileResolver;
 
     public LogFile() {
     }
@@ -43,16 +47,29 @@ public class LogFile {
         this.regEx = regEx;
     }
 
+    public void setFileResolver(FilePathResolver fileResolver) {
+        this.fileResolver = fileResolver;
+    }
+
+    public String getActualPath() {
+        if (fileResolver != null) {
+            return fileResolver.resolve(path);
+        } else {
+            return path;
+        }
+    }
+
     public boolean exists() {
-        return new File(path).exists();
+        return new File(getActualPath()).exists();
     }
 
     @Override
     public String toString() {
-        return "{" +
-                "'key':'" + key + '\'' +
-                ", 'path':'" + path + '\'' +
-                ", 'regEx':'" + regEx + '\'' +
+        return "LogFile{" +
+                "key='" + key + '\'' +
+                ", path='" + path + '\'' +
+                ", absolutePath='" + getActualPath() + '\'' +
+                ", regEx='" + regEx + '\'' +
                 '}';
     }
 }

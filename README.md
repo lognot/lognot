@@ -35,6 +35,12 @@ files:
   path: /var/log/httpd/error.log
   regEx: .*caught.*
 
+# Date format patterns are allowed in file path.
+- key: server
+  path: /opt/server/logs/console-%d{yyyyMMdd}.log
+  regEx: .*ERROR.*|.*SEVERE.*
+
+
 # Email configuration
 spring:
   mail:
