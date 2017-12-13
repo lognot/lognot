@@ -60,6 +60,8 @@ Setup and run
 First create a copy of the src\main\resources\application.yml file - let's 
 call it lognot.yml - and set email properties, and files to scan, similar to the example above.
 
-Copy the lognot jar together with the lognot.yml to the machine you want to run lognot on an run 
-```./lognot -f lognot.yml > lognot.log 2>&1 &``` 
-to start it in backgrounf.
+Copy the lognot archive machine you want to run lognot on, unarchive, add your lognot.yml configuration file and run
+```
+./lognot -f lognot.yml > lognot.log 2>&1 &
+``` 
+to start it in background.
