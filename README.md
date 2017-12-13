@@ -71,3 +71,7 @@ Copy the lognot archive machine you want to run lognot on, unarchive, add your l
 ./lognot -f lognot.yml > lognot.log 2>&1 &
 ``` 
 to start it in background.
+
+Contributions
+-------------
+Contributions via pull requests are gladly accepted!
