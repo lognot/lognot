@@ -12,6 +12,8 @@ public class LogFile {
 
     private String regEx;
 
+    private Long period;
+
     private FilePathResolver fileResolver;
 
     public LogFile() {
@@ -47,6 +49,14 @@ public class LogFile {
         this.regEx = regEx;
     }
 
+    public Long getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Long period) {
+        this.period = period;
+    }
+
     public void setFileResolver(FilePathResolver fileResolver) {
         this.fileResolver = fileResolver;
     }
@@ -68,8 +78,8 @@ public class LogFile {
         return "LogFile{" +
                 "key='" + key + '\'' +
                 ", path='" + path + '\'' +
-                ", absolutePath='" + getActualPath() + '\'' +
                 ", regEx='" + regEx + '\'' +
+                ", period=" + period +
                 '}';
     }
 }

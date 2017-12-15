@@ -31,8 +31,10 @@ files:
   path: /opt/app/logs/console.log
   regEx: .*ERROR.*|.*Exception.*
 
+# 'period' specifies the time interval in seconds between two checks. Default is one 60 seconds.
 - key: apache
   path: /var/log/httpd/error.log
+  period: 300
   regEx: .*caught.*
 
 # Date format patterns are allowed in file path.

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.util.Assert;
 
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 @Import(LognotConfig.class)
 public class LognotApplication implements CommandLineRunner {
 	private static final Logger LOG = Logger.getLogger(LognotApplication.class);
+	
+	public static final long DEFAULT_PERIOD = 60L;
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -51,7 +54,8 @@ public class LognotApplication implements CommandLineRunner {
 			file.setFileResolver(filePathResolver);
 			if (file.exists()) {
 				Scanner scanner = applicationContext.getBean(Scanner.class, file, notifier);
-				executor.scheduleAtFixedRate(scanner, 0, 30, TimeUnit.SECONDS);
+				long period = Optional.ofNullable(file.getPeriod()).orElse(DEFAULT_PERIOD);
+				executor.scheduleAtFixedRate(scanner, 0, period, TimeUnit.SECONDS);
 			} else {
 				LOG.error("File " + file.getPath() + " cannot be traced. Check if it is readable.");
 			}
